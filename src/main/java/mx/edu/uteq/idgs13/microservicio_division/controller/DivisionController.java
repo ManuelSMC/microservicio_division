@@ -1,15 +1,20 @@
 package mx.edu.uteq.idgs13.microservicio_division.controller;
 
-import mx.edu.uteq.idgs13.microservicio_division.dto.DivisionDTO;
-import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
-import mx.edu.uteq.idgs13.microservicio_division.service.DivisionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import mx.edu.uteq.idgs13.microservicio_division.dto.DivisionDTO;
+import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
+import mx.edu.uteq.idgs13.microservicio_division.service.DivisionService;
 
 @RestController
 @RequestMapping("/api/divisions")
