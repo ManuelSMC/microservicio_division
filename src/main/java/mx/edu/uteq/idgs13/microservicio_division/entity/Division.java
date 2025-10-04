@@ -6,7 +6,6 @@ import lombok.Data;
 import jakarta.persistence.*;
 import java.util.*;
 
-
 @Entity
 @Data
 public class Division {
@@ -17,4 +16,7 @@ public class Division {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramaEducativo> programas;
+    
+    
+    private Boolean habilitado = true;  
 }
