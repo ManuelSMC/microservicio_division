@@ -16,15 +16,6 @@ public class DivisionService {
     @Autowired
     private ProgramaEducativoRepository programaRepo;
 
-    
-    public List<Division> getAllDivisiones() {
-        return divisionRepo.findAll();
-    }
-
-  
-    public Optional<Division> getDivisionById(Integer id) {
-        return divisionRepo.findById(id);
-    }
 
     // Habilitar división
     public Division habilitarDivision(Integer id) {

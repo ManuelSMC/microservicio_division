@@ -15,20 +15,6 @@ public class DivisionController {
     @Autowired
     private DivisionService divisionService;
 
-    // GET todas las divisiones
-    @GetMapping
-    public List<Division> getAllDivisiones() {
-        return divisionService.getAllDivisiones();
-    }
-
-    // GET por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Division> getDivisionById(@PathVariable Integer id) {
-        Optional<Division> division = divisionService.getDivisionById(id);
-        return division.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-
     // PUT habilitar
     @PutMapping("/{id}/habilitar")
     public ResponseEntity<Division> habilitarDivision(@PathVariable Integer id) {
@@ -51,7 +37,7 @@ public class DivisionController {
         }
     }
 
-    // DELETE borrar
+    // DELETE 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDivision(@PathVariable Integer id) {
         try {
