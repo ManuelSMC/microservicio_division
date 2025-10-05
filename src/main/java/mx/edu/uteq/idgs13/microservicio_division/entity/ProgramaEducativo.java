@@ -1,17 +1,18 @@
 package mx.edu.uteq.idgs13.microservicio_division.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
 import jakarta.persistence.*;
-
+import lombok.Data;
 
 @Entity
+@Table(name = "programa_educativo")
 @Data
 public class ProgramaEducativo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_programa_educativo")
+    private Integer idProgramaEducativo;
+
+    @Column(name = "nombre")
     private String nombre;
 
     @ManyToOne

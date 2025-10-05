@@ -3,8 +3,6 @@ package mx.edu.uteq.idgs13.microservicio_division.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Table(name = "division")
 @Data
@@ -12,10 +10,15 @@ public class Division {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_division;
+    @Column(name = "id_division")
+    private Integer idDivision;
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProgramaEducativo> programasEducativos;
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "division")
+    private List<ProgramaEducativo> programasEducativos;*/
 }
