@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import mx.edu.uteq.idgs13.microservicio_division.dto.DivisionDTO;
 import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
 import mx.edu.uteq.idgs13.microservicio_division.service.DivisionService;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/divisions")
@@ -58,6 +58,39 @@ public class DivisionController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error al actualizar la división: " + e.getMessage());
+        }
+    }
+
+    // PUT habilitar
+    @PutMapping("/{id}/habilitar")
+    public ResponseEntity<Division> habilitarDivision(@PathVariable Integer id) {
+        try {
+            Division updated = divisionService.habilitarDivision(id);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // PUT deshabilitar
+    @PutMapping("/{id}/deshabilitar")
+    public ResponseEntity<Division> deshabilitarDivision(@PathVariable Integer id) {
+        try {
+            Division updated = divisionService.deshabilitarDivision(id);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // DELETE 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDivision(@PathVariable Integer id) {
+        try {
+            divisionService.deleteDivision(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
     
