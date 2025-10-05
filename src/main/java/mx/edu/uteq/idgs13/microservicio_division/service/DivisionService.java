@@ -17,6 +17,10 @@ public class DivisionService {
     private ProgramaEducativoRepository programaRepo;
 
 
+    public Division crearDivision(Division division) {
+        return divisionRepo.save(division);
+    }
+
     // Habilitar división
     public Division habilitarDivision(Integer id) {
         Division division = divisionRepo.findById(id).orElseThrow(() -> new RuntimeException("División no encontrada"));
