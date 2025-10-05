@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
 import mx.edu.uteq.idgs13.microservicio_division.repository.ProgramaEducativoRepository;
 import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DivisionService {
@@ -24,23 +22,31 @@ public class DivisionService {
     // Habilitar división
     public Division habilitarDivision(Integer id) {
         Division division = divisionRepo.findById(id).orElseThrow(() -> new RuntimeException("División no encontrada"));
-        division.setHabilitado(true);
+        division.setStatus(true);
         return divisionRepo.save(division);
     }
 
     // Deshabilitar división
     public Division deshabilitarDivision(Integer id) {
         Division division = divisionRepo.findById(id).orElseThrow(() -> new RuntimeException("División no encontrada"));
-        division.setHabilitado(false);
+        division.setStatus(false);
         return divisionRepo.save(division);
     }
 
-    // Borrar división (soft delete? No, hard delete como pediste)
-    public void deleteDivision(Integer id) {
-        if (divisionRepo.existsById(id)) {
-            divisionRepo.deleteById(id);
+    // Borrar división
+    public String deleteDivision(Integer id) {
+        divisionRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("División no encontrada con id: " + id));
+
+        // Verificar si la división está siendo usada por algún programa educativo
+        boolean hasProgramas = programaRepo.existsById(id);
+
+        if (hasProgramas) {
+            return "La división está siendo usada y no puede ser eliminada.";
         } else {
-            throw new RuntimeException("División no encontrada");
+            // Si no está en uso, eliminar la división
+            divisionRepo.deleteById(id);
+            return "División eliminada exitosamente.";
         }
     }
 }

@@ -15,6 +15,15 @@ public class ProgramaEducativo {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "status")
+    private Boolean status;
+
+    @Column(name = "clave")
+    private String clave;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
     @ManyToOne
     @JoinColumn(name = "division_id")
     private Division division;
