@@ -1,22 +1,41 @@
 package mx.edu.uteq.idgs13.microservicio_division.controller;
 
-import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.ResponseEntity;
+import mx.edu.uteq.idgs13.microservicio_division.dto.DivisionDTO;
+import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
+import mx.edu.uteq.idgs13.microservicio_division.service.DivisionService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/divisiones")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/divisions")
 public class DivisionController {
-    
+
     @Autowired
-    private DivisionRepository divisionRepository;
-    
+    private DivisionService service;
+
+    // Listar todas las divisiones
+    @GetMapping
+    public ResponseEntity<List<DivisionDTO>> getAll() {
+        List<DivisionDTO> dtos = service.findAll().stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    // Buscar división por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<DivisionDTO> getById(@PathVariable Integer id) {
+        Optional<Division> division = service.findById(id);
+        return division.map(d -> ResponseEntity.ok(convertToDTO(d)))
+                      .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+  
     // Actualizar/Editar una división (actualización parcial)
     @PutMapping("/{id_division}")
     public ResponseEntity<?> editar(@PathVariable Integer id_division, @RequestBody Division division) {
@@ -41,6 +60,27 @@ public class DivisionController {
                 .body("Error al actualizar la división: " + e.getMessage());
         }
     }
+    
+    // Método auxiliar para convertir Entity a DTO
+    private DivisionDTO convertToDTO(Division division) {
+        DivisionDTO dto = new DivisionDTO();
+        dto.setIdDiv(division.getIdDiv());
+        dto.setNomDiv(division.getNomDiv());
+        dto.setStatusDiv(division.getStatusDiv());
+        
+        if (division.getProgramasEducativos() != null) {
+            List<DivisionDTO.ProgramaEducativoDTO> programas = division.getProgramasEducativos()
+                .stream()
+                .map(pe -> {
+                    DivisionDTO.ProgramaEducativoDTO peDto = new DivisionDTO.ProgramaEducativoDTO();
+                    peDto.setId(pe.getId());
+                    peDto.setNombre(pe.getNombre());
+                    return peDto;
+                })
+                .collect(Collectors.toList());
+            dto.setProgramasEducativos(programas);
+        }
+        
+        return dto;
+    }
 }
-
-//hola, pa q se suba jaja
