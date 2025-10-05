@@ -1,6 +1,8 @@
 package mx.edu.uteq.idgs13.microservicio_division.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,15 @@ public class DivisionController {
 
     @Autowired
     private DivisionRepository divisionRepository;
+
+    @Autowired
+    private DivisionService divisionService;
+
+    // Crear una nueva división
+    @PostMapping
+    public Division crearDivision(@RequestBody Division division) {
+        return divisionService.crearDivision(division);
+    }
 
     // Listar todas las divisiones
     @GetMapping
@@ -35,7 +46,7 @@ public class DivisionController {
         }
     }
   
-    // Editar una división (actualización parcial)
+    // Editar una división
     @PutMapping("/{id_division}")
     public ResponseEntity<?> editar(@PathVariable Integer id_division, @RequestBody Division division) {
         try {
@@ -59,7 +70,7 @@ public class DivisionController {
                 .body("Error al actualizar la división: " + e.getMessage());
         }
     }
-  
+    // PUT habilitar
     @PutMapping("/{id}/habilitar")
     public ResponseEntity<Division> habilitarDivision(@PathVariable Integer id) {
         try {
@@ -83,12 +94,18 @@ public class DivisionController {
 
     // DELETE 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDivision(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> deleteDivision(@PathVariable Integer id) {
         try {
-            divisionService.deleteDivision(id);
-            return ResponseEntity.noContent().build();
+            String message = divisionService.deleteDivision(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", message);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 }

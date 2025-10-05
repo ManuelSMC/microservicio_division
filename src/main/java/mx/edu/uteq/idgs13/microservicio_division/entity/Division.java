@@ -20,6 +20,15 @@ public class Division {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "clave")
+    private String clave;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @Column(name = "director")
+    private String  director;
+
     /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "division")
     private List<ProgramaEducativo> programasEducativos;*/
 }
