@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
+import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
 
-public interface DivisionService {
-    
-    
-    List<Division> findAll();
-    Optional<Division> findById(Integer id);
-    
-  
-    List<Division> findByNombre(String nombre);
-    List<Division> findByStatus(Boolean status);
-    List<Division> findByNombreAndStatus(String nombre, Boolean status);
+@Service
+public class DivisionService {
+
+    @Autowired
+    private DivisionRepository divisionRepo;
+
+    public Division crearDivision(Division division) {
+        return divisionRepo.save(division);
+    }
 }

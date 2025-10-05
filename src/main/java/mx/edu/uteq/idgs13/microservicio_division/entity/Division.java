@@ -9,17 +9,13 @@ import java.util.List;
 @Table(name = "division")
 @Data
 public class Division {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_div")
-    private Integer idDiv;
+    private Integer id_division;
+    private String nombre;
+    private Boolean status;
 
-    @Column(name = "nom_div", nullable = false)
-    private String nomDiv;
-
-    @Column(name = "status_div", nullable = false)
-    private Boolean statusDiv;
-
-    @OneToMany(mappedBy = "division", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramaEducativo> programasEducativos;
 }
