@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
 import mx.edu.uteq.idgs13.microservicio_division.service.DivisionService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/divisiones")
 public class DivisionController {
@@ -25,6 +26,7 @@ public class DivisionController {
     // Crear una nueva división
     @PostMapping
     public Division crearDivision(@RequestBody Division division) {
+        division.setIdDivision(null);
         return divisionService.crearDivision(division);
     }
 
@@ -55,13 +57,22 @@ public class DivisionController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("División no encontrada con ID: " + id_division);
             }
-            
             Division divisionExistente = divisionOpt.get();
-            
             // Actualizar solo los campos que vienen en el request (no nulos)
             if (division.getNombre() != null) {
                 divisionExistente.setNombre(division.getNombre());
             }
+            if (division.getClave() != null) {
+                divisionExistente.setClave(division.getClave());
+            }
+            if (division.getDescripcion() != null) {
+                divisionExistente.setDescripcion(division.getDescripcion());
+            }
+            if (division.getDirector() != null) {
+                divisionExistente.setDirector(division.getDirector());
+            }
+            // Para el campo booleano status, no verificamos null, ya que siempre tiene un valor
+            divisionExistente.setStatus(division.getStatus());
             
             Division divisionActualizada = divisionRepository.save(divisionExistente);
             return ResponseEntity.ok(divisionActualizada);

@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import mx.edu.uteq.idgs13.microservicio_division.dto.ProgramaEducativoDTO;
 import mx.edu.uteq.idgs13.microservicio_division.entity.ProgramaEducativo;
 import mx.edu.uteq.idgs13.microservicio_division.repository.ProgramaEducativoRepository;
 import mx.edu.uteq.idgs13.microservicio_division.service.ProgramaEducativoService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/programas")
 public class ProgramaEducativoController {
@@ -57,6 +58,7 @@ public class ProgramaEducativoController {
         }
     }
   
+    // Editar programa educativo
     @PutMapping("/{id}")
     public ResponseEntity<ProgramaEducativo> editarPrograma(@PathVariable Integer id, @RequestBody ProgramaEducativoDTO dto) {
         ProgramaEducativo programa = programaService.editarPrograma(id, dto);
