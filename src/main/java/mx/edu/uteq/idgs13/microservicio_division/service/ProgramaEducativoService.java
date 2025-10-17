@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.edu.uteq.idgs13.microservicio_division.dto.ProgramaEducativoDTO;
-import mx.edu.uteq.idgs13.microservicio_division.entity.Division;
 import mx.edu.uteq.idgs13.microservicio_division.entity.ProgramaEducativo;
-import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
 import mx.edu.uteq.idgs13.microservicio_division.repository.ProgramaEducativoRepository;
 
 @Service
 public class ProgramaEducativoService {
-    @Autowired
-    private DivisionRepository divisionRepo;
     @Autowired
     private ProgramaEducativoRepository programaRepo;
 
@@ -35,11 +31,6 @@ public class ProgramaEducativoService {
         programa.setStatus(dto.getStatus());
         programa.setClave(dto.getClave());
         programa.setDescripcion(dto.getDescripcion());
-
-        // Asignar la división
-        Division division = divisionRepo.findById(dto.getDivisionId())
-                .orElseThrow(() -> new RuntimeException("División no encontrada"));
-        programa.setDivision(division);
     }
 
     // Habilitar programa educativo
@@ -68,7 +59,7 @@ public class ProgramaEducativoService {
             return "El programa educativo está siendo usado y no puede ser eliminado.";
         } else {
             // Si no está en uso, eliminar el programa educativo
-            divisionRepo.deleteById(id);
+            programaRepo.deleteById(id);
             return "Programa educativo eliminado exitosamente.";
         }
     }
