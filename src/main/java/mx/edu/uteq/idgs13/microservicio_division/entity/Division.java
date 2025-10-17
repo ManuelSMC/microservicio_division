@@ -2,6 +2,9 @@ package mx.edu.uteq.idgs13.microservicio_division.entity;
 
 import jakarta.persistence.*;
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 
 @Entity
@@ -29,6 +32,7 @@ public class Division {
     @Column(name = "director")
     private String  director;
 
-    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "division")
-    private List<ProgramaEducativo> programasEducativos;*/
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "division")
+    @JsonManagedReference
+    private List<ProgramaEducativo> programasEducativos;
 }

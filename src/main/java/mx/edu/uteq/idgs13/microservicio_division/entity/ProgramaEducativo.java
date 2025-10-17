@@ -1,5 +1,7 @@
 package mx.edu.uteq.idgs13.microservicio_division.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +27,7 @@ public class ProgramaEducativo {
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "division_id")
+    @JoinColumn(name = "id_division")
+    @JsonBackReference
     private Division division;
 }

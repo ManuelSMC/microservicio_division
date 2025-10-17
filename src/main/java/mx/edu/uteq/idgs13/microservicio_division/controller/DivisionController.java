@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import mx.edu.uteq.idgs13.microservicio_division.repository.DivisionRepository;
+import mx.edu.uteq.idgs13.microservicio_division.dto.DivisionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,16 @@ public class DivisionController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    // Endpoint para obtener múltiples divisiones por lista de IDs
+    @PostMapping("/by-ids")
+    public ResponseEntity<List<DivisionDTO>> getByIds(@RequestBody List<Integer> ids) {
+        List<Division> divisiones = (List<Division>) divisionRepository.findAllById(ids);
+        List<DivisionDTO> dtos = divisiones.stream()
+            .map(DivisionDTO::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
   
     // Editar una división
